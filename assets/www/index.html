@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Apigee Training App</title>
+        <title>Hoot Hot Food App</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
@@ -16,29 +16,52 @@
             });
 
             // A Collection object that will be used to hold the list of books locally
-            var my_books = new Usergrid.Collection( { "client":apigee, "type":"books" } );
+            var my_books = new Usergrid.Collection( { "client":apigee, "type":"hotfoods" } );
 
 
             $(document).ready(function () {
-                $('#create-button').bind('click', createBook);
             });
 
-            loadBooks();
 
             function loadBooks () {
+
+                for(var i = 0;i<100;i++) {
+
+                };
                 
                 my_books.fetch( // Actual network call
+
+
 
                     // Success Callback
                     function () {
                         $('#books-list').empty();
-                        
-                        while ( my_books.hasNextEntity() ) {
+                        var pizza = "";
+
+
+
+                        while (my_books.hasNextEntity) {
                             var current_book = my_books.getNextEntity();
 
                             // Output the book on the page
-                            $('#books-list').append('<li><h3>'+current_book.get('title')+'</h3><p>'+current_book.get('author')+'</p></li>');
+                            if (current_book.get('title') == "on" && current_book.get('author') == "pizza") {
+                                $('#hotFood').append('<li><h3>Pizza Available</h3></li>'); 
+                            }
+
+                            if (current_book.get('title') == "off" && current_book.get('author') == "pizza") {
+                                $('#hotFood').append('<li><h3>Pizza Not Available</h3></li>'); 
+                            }
+
+                            // Output the book on the page
+                            if (current_book.get('title') == "on" && current_book.get('author') == "cfa") {
+                                $('#hotFood').append('<li><h3>CFA Available</h3></li>'); 
+                            }
+
+                            if (current_book.get('title') == "off" && current_book.get('author') == "cfa") {
+                                $('#hotFood').append('<li><h3>CFA Not Available</h3></li>'); 
+                            }
                         }
+                
                         
                         // Re-apply jQuery Mobile styles
                         $('#books-list').listview('refresh');
@@ -49,58 +72,147 @@
                 );
             }
 
-            function createBook() {
 
-                new_book = { "title":$("#title-field").val(),
-                            "author":$("#author-field").val() };
-
-                my_books.addEntity(new_book, function (error, response) {
-                    if (error) {
-                        alert('write failed');
-                    } else {
-                        $("#title-field").val(""), $("#author-field").val("");
-                        loadBooks();
-                        history.back();
-                    }
-                });
-            }
         </script>
     </head>
-    <body>
-
-        <div data-role="page" data-theme="c" id="page-books-list">
+ <body>
+        <div data-role="page" data-theme="c" id="page-home">
             <div data-role="header" data-theme="b">
-                <h1>My Books</h1>
-                <a href="#page-new-book" id="btn-compose" data-icon="plus" data-iconpos="right" data-inline="true" data-role="button" data-rel="dialog" data-transition="fade" class="ui-btn-right">Add</a>
+                <h1>The Hoot</h1>
+                    <div data-role="controlgroup" data-type="horizontal" data-inline="true" id="header-button">
+                        <a href="#page-home" id="btn-compose" data-role="button" data-transition="fade">Home</a>
+                        <a href="#page-hotfood" id="btn-compose" data-role="button" data-transition="fade">Hot Food?</a>
+                        <a href="#page-menu" id="btn-compose" data-role="button" data-transition="fade">Menu</a>
+                    </div>
             </div>
+
             <div data-role="content">
-                <ul id="books-list"  data-role="listview" data-inset="false" >
-                    <li>
-                        <h3>First Title</h3>
-                        <p>First author</p>
-                    </li>
-                    <li>
-                        <h3>Second Title</h3>
-                        <p>Second author</p>
-                    </li>
-                </ul>
+                <center><h1>Welcome to The Hoot</h1></center>
+                <center><p>Promoting the Freshman 15 for all four years of college</p></center>
+            </div>
+        </div>
+
+        <div data-role="page" data-theme="c" id="page-hotfood">
+            <div data-role="header" data-theme="b">
+                <h1>The Hoot</h1>
+                    <div data-role="controlgroup" data-type="horizontal" data-inline="true" id="header-button">
+                        <a href="#page-home" id="btn-compose" data-role="button" data-transition="fade">Home</a>
+                        <a href="#page-hotfood" id="btn-compose" data-role="button" data-transition="fade">Hot Food?</a>
+                        <a href="#page-menu" id="btn-compose" data-role="button" data-transition="fade">Menu</a>
+                    </div>
+            </div>
+            
+            <div data-role="content">
+                <script>
+                    loadBooks();
+                </script>
+                <center><h1>Do we have hot food left?</h1></center>
+                <div data-role="content" id="hotFood">
+                </div>
             </div>
         </div>
 
 
-        <div data-role="page" data-theme="b" id="page-new-book">
+        <div data-role="page" data-theme="b" id="page-menu">
             <div data-role="header" data-theme="b">
-                <h1>Add a New Book</h1>
+                <h1>Menu</h1>      
+            </div>
+
+            <div data-role="content">
+                <div data-role="listview" data-theme="c">
+                    <li><a href="#page-pizza" data-rel="dialog" data-transition="fade">
+                        <img src="http://www.rivercitypizza.com/PepperoniPizza-full.jpg">
+                        Pizza
+                    </a></li>
+
+                    <li><a href="#page-CFA" data-rel="dialog" data-transition="fade">
+                        <img src="http://wp.patheos.com.s3.amazonaws.com/blogs/getreligion/files/2012/07/chick-fil-a-spicy-chicken-sandwich.jpeg">
+                        Chick-Fil-A
+                    </a></li>
+
+                    <li><a href="#page-snacks" data-rel="dialog" data-transition="fade">
+                        <img src="http://www.library.uni.edu/sites/default/files/blog/snackfood.jpg">
+                        Snacks
+                    </a></li>
+
+                    <li><a href="#page-drinks" data-rel="dialog" data-transition="fade">
+                        <img src="http://www.neontommy.com/sites/default/files/uploads/Monster%20_1.jpg">
+                        Drinks
+                    </a></li>
+                </div>
+            </div>
+        </div>
+
+
+        <div data-role="page" data-theme="b" id="page-pizza">
+            <div data-role="header" data-theme="b">
+                <h1>Pizza</h1>      
             </div>
             <div data-role="content">
-                <form>
-                    <label for="title-field">Title</label>
-                    <textarea id="title-field"></textarea>
-                    <label for="author-field">Author</label>
-                    <textarea id="author-field"></textarea>
-                </form>    
-                <a href="#page-books-list" data-role="button" data-theme="c" data-inline="true">Cancel</a>
-                <button id="create-button" data-inline="true">Create</button>
+                <strong><p>The Hoot sells a variety of pizzas from Papa Johns including:</p></strong>
+                <ul>
+                    <li>Cheese Pizza</li>
+                    <li>Pepperoni Pizza</li>
+                    <li>Pineapple Pizza</li>
+                    <li>Sausage Pizza</li>
+                    <li>Chicken Pizza</li>
+                    <li>Mushroom Pizza</li>
+                    <li>Specialty Pizza (Sundays Only)</li>
+                </ul>
+                <strong><h3>Half: $4.50  Full:$8.00</h3></strong>
+            </div>
+        </div>
+
+        <div data-role="page" data-theme="b" id="page-CFA">
+            <div data-role="header" data-theme="b">
+                <h1>Chick Fil A</h1>      
+            </div>
+            <div data-role="content">
+                <strong><p>The Hoot sells Chick-Fil-A items including:</p></strong>
+                <ul>
+                    <li>Regular Chicken Sandwich--$4.00</li>
+                    <li>Spicy Chicken Sandwich--$4.50</li>
+                    <li>8 piece Chicken Nuggets--$4.00</li>
+                </ul>
+                <strong><p>Because Chick-Fil-A is closed on Sundays, the Hoot sells Whataburger Honey Butter Chicken Biscuits on Sundays for $4.00</p></strong>
+            </div>
+        </div>
+
+        <div data-role="page" data-theme="b" id="page-snacks">
+            <div data-role="header" data-theme="b">
+                <h1>Snacks</h1>      
+            </div>
+            <div data-role="content">
+                <strong><p>The Hoot sells a variety of snacks for $1 including:</p></strong>
+                <ul>
+                    <li>Variety of Candy</li>
+                    <li>Mrs. Vickies Chips</li>
+                    <li>Chicken Ramen</li>
+                    <li>Trail mix</li>
+                </ul>
+
+                <strong><p>$2 snacks:</p></strong>
+                <ul>
+                    <li>Nong Shim Cups</li>
+                    <li>Popcorn</li>
+                    <li>Mac and Cheese Bowls</li>
+                    <li>Chobani Yogurt</li>
+                </ul>
+            </div>
+        </div>
+
+        <div data-role="page" data-theme="b" id="page-drinks">
+            <div data-role="header" data-theme="b">
+                <h1>Drinks</h1>      
+            </div>
+            <div data-role="content">
+                <strong><p>The Hoot sells fountain drinks for $0.50 and a variety of $2.00 drinks including:</p></strong>
+                <ul>
+                    <li>Monster</li>
+                    <li>Redbull</li>
+                    <li>5 Hour Energy</li>
+                    <li>Starbucks Fraps</li>
+                    <li>Sweat Leaf Tea</li>
             </div>
         </div>
 
