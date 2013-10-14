@@ -4,10 +4,10 @@
         <title>Hoot Hot Food App</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
-        <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
-        <script src="https://apigee.com/usergrid/sdk/usergrid.0.10.5.js"></script>
+        <link rel="stylesheet" type="text/css" href="jquerymobile.css" />
+        <script type="text/javascript" src="usergrid.js"></script>
+        <script type="text/javascript" src="jquerymobile.js"></script>
+        <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
         
             var apigee = new Usergrid.Client({
@@ -20,6 +20,7 @@
 
 
             $(document).ready(function () {
+                $('#refresh-button').bind('click', loadBooks);
             });
 
 
@@ -35,7 +36,7 @@
 
                     // Success Callback
                     function () {
-                        $('#books-list').empty();
+                        $('#hotFood').empty();
                         var pizza = "";
 
 
@@ -109,14 +110,21 @@
                 <center><h1>Do we have hot food left?</h1></center>
                 <div data-role="content" id="hotFood">
                 </div>
+                <button id="refresh-button"> Refresh </button>
             </div>
         </div>
 
 
         <div data-role="page" data-theme="b" id="page-menu">
             <div data-role="header" data-theme="b">
-                <h1>Menu</h1>      
+                <h1>Menu</h1>     
+                <div data-role="controlgroup" data-type="horizontal" data-inline="true" id="header-button">
+                    <a href="#page-home" id="btn-compose" data-role="button" data-transition="fade">Home</a>
+                    <a href="#page-hotfood" id="btn-compose" data-role="button" data-transition="fade">Hot Food?</a>
+                    <a href="#page-menu" id="btn-compose" data-role="button" data-transition="fade">Menu</a>
+                </div>
             </div>
+
 
             <div data-role="content">
                 <div data-role="listview" data-theme="c">
